@@ -5,7 +5,10 @@
 import { loadData } from './accelerometer';
 import splatter from './splatter';
 
+loadData();
+
 (async function () {
-    const accelData = await loadData('accel.csv');
-    splatter(accelData);
+    setTimeout(await loadData());
+    // const accelData = await loadData('accel.csv');
+    // splatter(accelData);
 })();
