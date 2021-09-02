@@ -1,13 +1,7 @@
 /**
  * graph the movement of each axis
  */
-
 import canvasSketch from 'canvas-sketch';
-import { loadData } from './accelerometer';
-
-(async function () {
-    draw(await loadData('accel.csv'));
-})();
 
 const canvasSettings = {
     animate: true,
@@ -15,7 +9,7 @@ const canvasSettings = {
     fps: 10,
 };
 
-function draw(accelData) {
+export default function splatter(accelData) {
     canvasSketch(() => {
         return ({ context, width, height, frame }) => {
             const accelPoint = accelData.next();
