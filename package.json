@@ -4,7 +4,7 @@
     "description": "",
     "main": "main.js",
     "scripts": {
-        "start": "canvas-sketch main.js --hot --https"
+        "start": "canvas-sketch main.js --hot --https --html=\"main.html\""
     },
     "type": "module",
     "keywords": [],

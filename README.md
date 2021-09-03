@@ -9,7 +9,7 @@ creating visuals with an accelerometer
 `npm ci`
 `npm start`
 
-### handle cert error
+### bypass cert error
 
 type 'thisisunsafe' in the browser to bypass the cert error
 

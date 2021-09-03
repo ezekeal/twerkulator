@@ -5,10 +5,8 @@
 import { loadData } from './accelerometer';
 import splatter from './splatter';
 
-loadData();
-
-(async function () {
-    setTimeout(await loadData());
-    // const accelData = await loadData('accel.csv');
-    // splatter(accelData);
-})();
+const connectButton = document.querySelector('#ble-connect');
+connectButton.addEventListener('click', async function () {
+    const accelData = await loadData();
+    splatter(accelData);
+});
