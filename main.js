@@ -2,10 +2,10 @@
  * graph the movement of each axis
  */
 import { loadData } from './accelerometer';
-import basicP5 from './basicP5';
+import fish from './p5/fish';
 
 const connectButton = document.querySelector('#ble-connect');
 connectButton.addEventListener('click', async function () {
     const accelData = await loadData();
-    basicP5(accelData);
+    fish(accelData);
 });

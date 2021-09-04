@@ -1,9 +1,9 @@
+//basic p5.js template to use
 import canvasSketch from 'canvas-sketch';
 import p5 from 'p5'
 
-// Attach p5.js it to global scope
 const preload = p5 => {
-	// You can use p5.loadImage() here, etc...
+	// add 'preload' contents here
 };
 
 const settings = {
@@ -18,7 +18,9 @@ const settings = {
 
 
 export default function basicP5(accelData) {
-	canvasSketch(({}) => {
+	canvasSketch(({p5}) => {
+		//put the 'setup' function contents here
+
 		accelData.start();
 		return ({
 			p5,
@@ -29,7 +31,6 @@ export default function basicP5(accelData) {
 
 			const accelPoint = accelData.values;
 			if (!accelPoint) return;
-			// console.log(accelPoint)
 			const scaleFactor = 30;
 			const scaleFactorShade = 20;
 			const scaledAccelPoint = {
@@ -38,7 +39,7 @@ export default function basicP5(accelData) {
 				z: accelPoint.z * scaleFactor,
 			};
 
-			// Draw with p5.js things
+			// put the 'draw' contents here
 			p5.background(0);
 			p5.fill(accelPoint.z * scaleFactorShade);
 			p5.noStroke();
