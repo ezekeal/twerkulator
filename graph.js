@@ -18,7 +18,8 @@ const canvasSettings = {
 
 function draw(accelData) {
     canvasSketch(() => {
-        const accelPoint = accelData.next();
+        accelData.start()
+        const accelPoint = accelData.values;
         if (!accelPoint) return;
         return ({ context, width, height }) => {
             // Fill the canvas

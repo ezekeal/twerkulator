@@ -19,6 +19,7 @@ const settings = {
 
 export default function basicP5(accelData) {
 	canvasSketch(({}) => {
+		accelData.start();
 		return ({
 			p5,
 			time,
@@ -26,7 +27,7 @@ export default function basicP5(accelData) {
 			height
 		}) => {
 
-			const accelPoint = accelData.next();
+			const accelPoint = accelData.values;
 			if (!accelPoint) return;
 			// console.log(accelPoint)
 			const scaleFactor = 30;
