@@ -37,17 +37,17 @@ const preload = p5 => {
 	// for (i = 0; i < 10; i++) {
 	//
 	// }
-	spriteTable.sprite1 = p5.loadImage('assets/fish0001.png');
-	spriteTable.sprite2 = p5.loadImage('assets/fish0002.png');
-	spriteTable.sprite3 = p5.loadImage('assets/fish0003.png');
-	spriteTable.sprite4 = p5.loadImage('assets/fish0004.png');
-	spriteTable.sprite5 = p5.loadImage('assets/fish0005.png');
-	spriteTable.sprite6 = p5.loadImage('assets/fish0006.png');
-	spriteTable.sprite7 = p5.loadImage('assets/fish0007.png');
-	spriteTable.sprite8 = p5.loadImage('assets/fish0008.png');
-	spriteTable.sprite9 = p5.loadImage('assets/fish0009.png');
-	spriteTable.sprite10 = p5.loadImage('assets/fish0010.png');
-	spriteTable.sprite11 = p5.loadImage('assets/fish0011.png');
+	spriteTable.sprite1 = p5.loadImage('assets/fish/fish0001.png');
+	spriteTable.sprite2 = p5.loadImage('assets/fish/fish0002.png');
+	spriteTable.sprite3 = p5.loadImage('assets/fish/fish0003.png');
+	spriteTable.sprite4 = p5.loadImage('assets/fish/fish0004.png');
+	spriteTable.sprite5 = p5.loadImage('assets/fish/fish0005.png');
+	spriteTable.sprite6 = p5.loadImage('assets/fish/fish0006.png');
+	spriteTable.sprite7 = p5.loadImage('assets/fish/fish0007.png');
+	spriteTable.sprite8 = p5.loadImage('assets/fish/fish0008.png');
+	spriteTable.sprite9 = p5.loadImage('assets/fish/fish0009.png');
+	spriteTable.sprite10 = p5.loadImage('assets/fish/fish0010.png');
+	spriteTable.sprite11 = p5.loadImage('assets/fish/fish0011.png');
 };
 
 const settings = {
