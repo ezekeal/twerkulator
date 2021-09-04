@@ -1,19 +1,19 @@
 {
-  "name": "twerkulator",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "start": "canvas-sketch main.js --hot"
-  },
-  "type": "module",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "canvas-sketch": "^0.7.4",
-    "canvas-sketch-cli": "^1.11.14",
-    "csv-parse": "^4.16.0",
-    "p5": "^1.4.0"
-  }
+    "name": "twerkulator",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "start": "canvas-sketch main.js --hot --https --html=\"main.html\""
+    },
+    "type": "module",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "canvas-sketch": "^0.7.4",
+        "canvas-sketch-cli": "^1.11.14",
+        "csv-parse": "^4.16.0",
+        "p5": "^1.4.0"
+    }
 }

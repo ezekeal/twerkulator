@@ -2,12 +2,8 @@
  * graph the movement of each axis
  */
 
-import {
-	loadData
-} from './accelerometer';
-import basicP5 from './basicP5.js';
-
-(async function() {
-	const accelData = await loadData('accel.csv');
-	basicP5(accelData);
-})();
+const connectButton = document.querySelector('#ble-connect');
+connectButton.addEventListener('click', async function () {
+    const accelData = await loadData();
+    basicP5(accelData);
+});

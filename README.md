@@ -4,7 +4,14 @@ creating visuals with an accelerometer
 
 ## development
 
+### install and run
+
+`npm ci`
 `npm start`
+
+### bypass cert error
+
+type 'thisisunsafe' in the browser to bypass the cert error
 
 ## useful links
 

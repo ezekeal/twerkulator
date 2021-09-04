@@ -4,15 +4,17 @@
 import canvasSketch from 'canvas-sketch';
 
 const canvasSettings = {
+    loop: false,
     animate: true,
     dimensions: [1080, 1350],
-    fps: 10,
+    fps: 1,
 };
 
 export default function splatter(accelData) {
     canvasSketch(() => {
+        accelData.start();
         return ({ context, width, height, frame }) => {
-            const accelPoint = accelData.next();
+            const accelPoint = accelData.values;
             if (!accelPoint) return;
             if (frame === 0) {
                 // clear canvas
