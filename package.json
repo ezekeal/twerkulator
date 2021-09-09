@@ -13,6 +13,7 @@
     "dependencies": {
         "canvas-sketch": "^0.7.4",
         "canvas-sketch-cli": "^1.11.14",
-        "csv-parse": "^4.16.0"
+        "csv-parse": "^4.16.0",
+        "rxjs": "^7.3.0"
     }
 }
