@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.controls {
+    width: 100vw;
+    height: 5vh;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.controls button {
+    color: white;
+    height: 100%;
+    width: 20em;
+    border: none;
+    background: hsla(0, 0%, 100%, 0);
+}
+
+.controls button:hover {
+    background: hsla(0, 0%, 100%, 0.2);
+}
+
+.controls button:disabled {
+    background: hsla(0, 0%, 100%, 0.2);
+}

@@ -10,7 +10,11 @@
         <link rel="stylesheet" href="main.css" />
     </head>
     <body>
-        <button id="ble-connect">connect</button>
+        <div class="controls">
+            <button id="ble-connect">connect</button>
+            <button id="ble-disconnect" disabled>disconnect</button>
+            <span id="ble-status"></span>
+        </div>
         {{entry}}
     </body>
 </html>

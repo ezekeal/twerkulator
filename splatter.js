@@ -12,9 +12,8 @@ const canvasSettings = {
 
 export default function splatter(accelData) {
     canvasSketch(() => {
-        accelData.start();
         return ({ context, width, height, frame }) => {
-            const accelPoint = accelData.values;
+            const accelPoint = accelData.getValue();
             if (!accelPoint) return;
             if (frame === 0) {
                 // clear canvas
