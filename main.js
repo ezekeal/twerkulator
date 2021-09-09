@@ -5,7 +5,7 @@
 import {
 	connect
 } from './circuit-playground';
-import splatter from './splatter';
+import fish from './p5/fish';
 import {
 	from,
 	fromEvent
@@ -42,7 +42,7 @@ function onConnected(device) {
 	enableButton(disconnectButton);
 	logStatus(`connected to ${device.name}`);
 	cpDevice = device;
-	splatter(cpDevice.accelerometer$);
+	fish(cpDevice.accelerometer$);
 }
 
 function onDisconnect() {

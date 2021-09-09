@@ -131,15 +131,22 @@ export default function fish(accelData) {
 			}
 		}
 
-		accelData.start();
+		// accelData.start();
 		return ({
 			p5,
 			time,
 			width,
-			height
+			height,
+			frame
 		}) => {
 
-			const accelPoint = accelData.values;
+			const accelPoint = accelData.getValue();
+			if (!accelPoint) return;
+			if (frame === 0) {
+				// clear canvas
+				context.fillStyle = 'black';
+				context.fillRect(0, 0, width, height);
+			}
 			if (!accelPoint) return;
 			// console.log(accelPoint)
 			const scaleFactor = 30;
