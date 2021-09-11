@@ -12,7 +12,6 @@ let rotation; //rotation
 let bground = 10;
 let mdground = 10;
 let frground = 11;
-//array length = all layers together
 let total = bground + mdground + frground;
 //size of sprites in 3 layers
 let bgsize = 25;
@@ -34,23 +33,25 @@ let sprites = []
 
 // Attach p5.js it to global scope
 const preload = p5 => {
-	// for (i = 0; i < 10; i++) {
-	//
-	// }
-	spriteTable.sprite1 = p5.loadImage('assets/fish/fish0001.png');
-	spriteTable.sprite2 = p5.loadImage('assets/fish/fish0002.png');
-	spriteTable.sprite3 = p5.loadImage('assets/fish/fish0003.png');
-	spriteTable.sprite4 = p5.loadImage('assets/fish/fish0004.png');
-	spriteTable.sprite5 = p5.loadImage('assets/fish/fish0005.png');
-	spriteTable.sprite6 = p5.loadImage('assets/fish/fish0006.png');
-	spriteTable.sprite7 = p5.loadImage('assets/fish/fish0007.png');
-	spriteTable.sprite8 = p5.loadImage('assets/fish/fish0008.png');
-	spriteTable.sprite9 = p5.loadImage('assets/fish/fish0009.png');
-	spriteTable.sprite10 = p5.loadImage('assets/fish/fish0010.png');
-	spriteTable.sprite11 = p5.loadImage('assets/fish/fish0011.png');
+	let filePrefix = "fish"
+	for (let i = 1; i <= 11; i++) {
+		let spriteName = "sprite" + i
+		let filename
+		if (i < 10) {
+			filename = filePrefix + "000" + i
+		} else if (i < 100) {
+			filename = filePrefix + "00" + i
+		} else {
+			filename = filePrefix + "0" + i
+		}
+		spriteTable[spriteName] = p5.loadImage('assets/fish/' + filename + '.png');
+	}
 };
 
 const settings = {
+	// The file name without extension, defaults to current time stamp
+	// Optional prefix applied to the file name
+	prefix: 'fish',
 	// Tell canvas-sketch we're using p5.js
 	p5: {
 		p5,
@@ -96,7 +97,6 @@ export default function fish(accelData) {
 				// this.rotation += p5.radians(1);
 			}
 			display(scaledAccelPoint) {
-				// p5.noStroke();
 				p5.push();
 				p5.translate(this.x, this.y);
 				p5.rotate(this.rotation);

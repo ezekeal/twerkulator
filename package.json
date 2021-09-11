@@ -4,13 +4,14 @@
     "description": "",
     "main": "main.js",
     "scripts": {
-        "start": "canvas-sketch main.js --hot --https --html=\"main.html\""
+        "start": "canvas-sketch main.js --output=output --stream=gif --hot --https --html=\"main.html\""
     },
     "type": "module",
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@ffmpeg-installer/ffmpeg": "^1.1.0",
         "canvas-sketch": "^0.7.4",
         "canvas-sketch-cli": "^1.11.14",
         "csv-parse": "^4.16.0",
