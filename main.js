@@ -5,7 +5,7 @@
 import {
 	connect
 } from './circuit-playground';
-import fish from './p5/fish';
+import rotator from './p5/rotator';
 import {
 	from,
 	fromEvent
@@ -42,7 +42,7 @@ function onConnected(device) {
 	enableButton(disconnectButton);
 	logStatus(`connected to ${device.name}`);
 	cpDevice = device;
-	fish(cpDevice.accelerometer$);
+	rotator(cpDevice.accelerometer$);
 }
 
 function onDisconnect() {
