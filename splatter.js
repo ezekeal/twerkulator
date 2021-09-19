@@ -6,8 +6,6 @@ import canvasSketch from 'canvas-sketch';
 const canvasSettings = {
     loop: false,
     animate: true,
-    dimensions: [1080, 1350],
-    fps: 1,
 };
 
 export default function splatter(accelData) {

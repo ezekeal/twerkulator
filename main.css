@@ -27,3 +27,7 @@ body {
 .controls button:disabled {
     background: hsla(0, 0%, 100%, 0.2);
 }
+
+#sketch-select {
+    margin: 0 2em;
+}
