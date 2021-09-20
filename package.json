@@ -4,8 +4,8 @@
     "description": "",
     "main": "main.js",
     "scripts": {
-        "start": "canvas-sketch main.js --output=output --stream=gif --https --html=\"main.html\" --hot",
-        "build": "canvas-sketch main.js --output=output --stream=gif --https --html=\"main.html\" --build --dir public --js=bundle.js"
+        "start": "canvas-sketch main.js --output=output --stream=gif --https --html=\"index.html\" --hot",
+        "build": "canvas-sketch main.js --output=output --stream=gif --https --html=\"index.html\" --build --dir public --js=bundle.js"
     },
     "type": "module",
     "keywords": [],
