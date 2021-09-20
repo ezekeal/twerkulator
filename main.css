@@ -1,15 +1,17 @@
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 .controls {
     width: 100vw;
-    height: 5vh;
+    height: 2em;
     background-color: black;
     display: flex;
     align-items: center;
     color: white;
+    position: absolute;
 }
 
 .controls button {

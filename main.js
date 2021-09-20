@@ -66,8 +66,14 @@ function sketchLoader(accelData$) {
 
     SKETCHES[sketchSelector.value](accelData$);
     sketchSelection.subscribe((sketchId) => {
-        document.querySelector('canvas')?.remove();
-        document.querySelector('main')?.remove();
+        const canvas = document.querySelectorAll('canvas');
+        const main = document.querySelector('main');
+        if (canvas) {
+            canvas.forEach((el) => el.remove());
+        }
+        if (main) {
+            main.remove();
+        }
         SKETCHES[sketchId](accelData$);
     });
 }
