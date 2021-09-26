@@ -78,15 +78,15 @@ export default function rotator(accelData) {
 		p5.smooth();
 		// p5.frameRate(25);
 		p5.fill(100);
-    p5.noStroke();
+		p5.noStroke();
 
 		// Jitter class
 		class Sprite {
 			constructor(tempR) {
 				this.r = tempR
 				// this.x = p5.random(p5.width);
-				this.x = p5.width/2;
-				this.y = p5.height/2;
+				this.x = p5.width / 2;
+				this.y = p5.height / 2;
 				// this.xspeed = p5.map(this.r, bgsize, frsize, 0.5, 2, true); //map the speed in x-direction based on the size/layer of the sprites
 				// this.diameter = p5.random(10, 30);
 				this.speed = 1;
@@ -115,7 +115,7 @@ export default function rotator(accelData) {
 				//Display the animated sprite
 				let currSprite = "sprite" + spriteIndex
 				//resize for parallax effect
-				p5.image(spriteTable[currSprite], p5.map((scaledAccelPoint.x), -400, 400, -p5.width/5, p5.width/5, true), p5.map((scaledAccelPoint.y), -400, 400, -p5.height/5, p5.height/5, true), this.r * 10, this.r * 10);
+				p5.image(spriteTable[currSprite], p5.map((scaledAccelPoint.x), -400, 400, -p5.width / 5, p5.width / 5, true), p5.map((scaledAccelPoint.y), -400, 400, -p5.height / 5, p5.height / 5, true), this.r * 10, this.r * 10);
 				//next frame
 				if (animationIndex > animationLag) {
 					//change animation frame
@@ -171,66 +171,68 @@ export default function rotator(accelData) {
 			};
 
 			// Draw loop
-			p5.background("#bb7db2");
+			let backgroundShade = p5.map(accelPoint.z, -100, 100, 0, 100, false);
+			p5.background(p5.color('hsl(309, ' + backgroundShade + '%, 61%)'));
+			// p5.background(accelPoint.z * scaleFactorShade);
 
-			const realSize = p5.min([width*0.8, height*0.8]); // real width and height of the sketch
-		  const s = realSize/n; // size of each grid tile
-		  const m = 4; // space between 2 arcs
+			const realSize = p5.min([width * 0.8, height * 0.8]); // real width and height of the sketch
+			const s = realSize / n; // size of each grid tile
+			const m = 4; // space between 2 arcs
 
-			let xCorner = (width - realSize)/2;
-			let yCorner = (height - realSize)/2;
+			let xCorner = (width - realSize) / 2;
+			let yCorner = (height - realSize) / 2;
 
-		  let t = (p5.frameCount%N_FRAMES) / N_FRAMES;
-		  t = easeInOutExpo(t);
+			let t = (p5.frameCount % N_FRAMES) / N_FRAMES;
+			t = easeInOutExpo(t);
 
-		  if (p5.frameCount % (2*N_FRAMES) == 0) {
-		    idFrom = idTo;
-		    // for the next N_FRAMES, the pattern will stay the same
-		  } else if (p5.frameCount % (2*N_FRAMES) == N_FRAMES) {
-		    idTo = (idTo +1) % N_PATTERNS;
-		    // for the next N_FRAMES, the pattern will change to the next one
-		  }
+			if (p5.frameCount % (2 * N_FRAMES) == 0) {
+				idFrom = idTo;
+				// for the next N_FRAMES, the pattern will stay the same
+			} else if (p5.frameCount % (2 * N_FRAMES) == N_FRAMES) {
+				idTo = (idTo + 1) % N_PATTERNS;
+				// for the next N_FRAMES, the pattern will change to the next one
+			}
 
-		  for (let i = 0; i < n; i++) {
-		    for (let j = 0; j < n; j++) {
-		      let thetaFrom = getRotation(i, j, idFrom);
-		      let thetaTo = getRotation(i, j, idTo);
-		      let theta = p5.map(t, 0, 1, thetaFrom, thetaTo);
+			for (let i = 0; i < n; i++) {
+				for (let j = 0; j < n; j++) {
+					let thetaFrom = getRotation(i, j, idFrom);
+					let thetaTo = getRotation(i, j, idTo);
+					let theta = p5.map(t, 0, 1, thetaFrom, thetaTo);
 
-		      p5.push();
-		      p5.translate(xCorner + (i+1/2)*s, yCorner + (j+1/2)*s);
-		      p5.rotate(theta);
-					p5.image(spriteTable["sprite5"], m/2-s/2, m/2-s/2, s*2-m*2, s*2-m*2);
-		      p5.pop();
-		    }
-		  }
+					p5.push();
+					p5.translate(xCorner + (i + 1 / 2) * s, yCorner + (j + 1 / 2) * s);
+					p5.rotate(theta);
+					p5.image(spriteTable["sprite5"], m / 2 - s / 2, m / 2 - s / 2, s * 2 - m * 2, s * 2 - m * 2);
+					p5.pop();
+				}
+			}
 
 			function getRotation(i, j, id) {
 				let rot;
-			  switch (id) {
-			    case 0:
-			      rot = (j < n/2) ? (2 + p5.floor(i/(n/2))) : (1 - p5.floor(i/(n/2)));
-			      break;
-			    case 1:
-			      rot = (j%2 == 0) ? (2 + (i%2)) : (1 - (i%2));
-			      break;
-			    case 2:
-			      rot = (j%2 == 0) ? (1 + 2*(i%2)) : (1 + 2*(1-i%2));
-			      break;
-			    case 3:
-			      rot = (i%2) + (j%2)*2 + 1;
-			      break;
-			  }
-			  return rot*p5.PI/2;
+				switch (id) {
+					case 0:
+						rot = (j < n / 2) ? (2 + p5.floor(i / (n / 2))) : (1 - p5.floor(i / (n / 2)));
+						break;
+					case 1:
+						rot = (j % 2 == 0) ? (2 + (i % 2)) : (1 - (i % 2));
+						break;
+					case 2:
+						rot = (j % 2 == 0) ? (1 + 2 * (i % 2)) : (1 + 2 * (1 - i % 2));
+						break;
+					case 3:
+						rot = (i % 2) + (j % 2) * 2 + 1;
+						break;
+				}
+				return rot * p5.PI / 2;
 			}
 
 			// from https://easings.net/
 			function easeInOutExpo(x) {
-			  return x === 0 ? 0: x === 1 ? 1: x < 0.5 ? p5.pow(2, 20 * x - 10) / 2 : (2 - p5.pow(2, -20 * x + 10)) / 2;
+				return x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? p5.pow(2, 20 * x - 10) / 2 : (2 - p5.pow(2, -20 * x + 10)) / 2;
 			}
 
 			function windowResized() {
-			  // resizeCanvas(windowWidth, windowHeight);
+				// resizeCanvas(windowWidth, windowHeight);
 			}
 
 

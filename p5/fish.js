@@ -103,7 +103,8 @@ export default function fish(accelData) {
 				//Display the animated sprite
 				let currSprite = "sprite" + spriteIndex
 				//resize for parallax effect
-				p5.image(spriteTable[currSprite], 0, 0, this.r * 3, this.r * 3);
+				let sizeFactor = p5.map((scaledAccelPoint.z + scaledAccelPoint.x) / 2, -400, 400, .8, 1.2, true)
+				p5.image(spriteTable[currSprite], 0, 0, this.r * 3 * sizeFactor, this.r * 3 * sizeFactor);
 				//next frame
 				if (animationIndex > animationLag) {
 					if (scaledAccelPoint.x > 50) {
