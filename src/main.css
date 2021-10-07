@@ -1,0 +1,26 @@
+:root {
+  --bg-color: black;
+  --primary-color: white;
+  color: var(--primary-color);
+  background-color: var(--bg-color);
+}
+
+button {
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 40px 1fr;
+}
+
+#sketch {
+  width: 100%;
+  height: 100%;
+}
