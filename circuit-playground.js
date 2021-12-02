@@ -1,7 +1,7 @@
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
 // get all devices that start with CPlay and their accelerometer service
-export async function connect() {
+export async function connect(accelSub) {
     if (!navigator.bluetooth) {
         throw 'bluetooth not supported';
     }
@@ -13,7 +13,7 @@ export async function connect() {
 
     const server = await device.gatt.connect();
     const disconnected$ = new ReplaySubject();
-    const accelerometer$ = await getAccelerometerService(server, 1);
+    await getAccelerometerService(server, 1, accelSub);
 
     device.addEventListener('gattserverdisconnected', () => {
         disconnected$.next();
@@ -27,11 +27,14 @@ export async function connect() {
             disconnected$.next();
         },
         disconnected$,
-        accelerometer$,
     };
 }
 
-async function getAccelerometerService(server, measurementPeriod = 500) {
+async function getAccelerometerService(
+    server,
+    measurementPeriod = 500,
+    accelSub
+) {
     const accelerometerServiceId = getFullId('0200');
     const accelerometerCharacteristicId = getFullId('0201');
 
@@ -46,7 +49,6 @@ async function getAccelerometerService(server, measurementPeriod = 500) {
     setMesurementPeriod(accelService, measurementPeriod);
 
     await accelCharacteristic.startNotifications();
-    const accelerometer$ = new BehaviorSubject();
 
     accelCharacteristic.addEventListener(
         'characteristicvaluechanged',
@@ -57,11 +59,10 @@ async function getAccelerometerService(server, measurementPeriod = 500) {
                 y: await value.getFloat32(4, true),
                 z: await value.getFloat32(8, true),
             };
-            accelerometer$.next(accelValues);
+            accelSub.next(accelValues);
         }
     );
-
-    return accelerometer$;
+    return;
 }
 
 async function setMesurementPeriod(service, measurementPeriod) {

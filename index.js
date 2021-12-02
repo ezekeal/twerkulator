@@ -6,7 +6,7 @@ import { connect } from './circuit-playground';
 import rotator from './p5/rotator';
 import fish from './p5/fish';
 import splatter from './splatter';
-import { from, fromEvent } from 'rxjs';
+import { BehaviorSubject, from, fromEvent } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
 const connectButton = document.querySelector('#ble-connect');
@@ -27,6 +27,10 @@ sketchSelector.addEventListener('change', (e) =>
 );
 
 let cpDevice = null;
+const accelData = new BehaviorSubject();
+const startingData = { x: 0, y: 0, z: 0 };
+accelData.next(startingData);
+sketchLoader(accelData);
 
 fromEvent(connectButton, 'click')
     .pipe(switchMap(onConnecting), map(onConnected), catchError(onError))
@@ -44,7 +48,6 @@ function onConnected(device) {
     enableButton(disconnectButton);
     logStatus(`connected to ${device.name}`);
     cpDevice = device;
-    sketchLoader(cpDevice.accelerometer$);
 }
 
 function onDisconnect() {
