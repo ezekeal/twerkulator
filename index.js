@@ -6,8 +6,16 @@ import { connect } from './circuit-playground';
 import rotator from './p5/rotator';
 import fish from './p5/fish';
 import splatter from './splatter';
-import { from, fromEvent } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import totem from './p5/totem';
+import {
+	from,
+	fromEvent
+} from 'rxjs';
+import {
+	map,
+	switchMap,
+	catchError
+} from 'rxjs/operators';
 
 const connectButton = document.querySelector('#ble-connect');
 const disconnectButton = document.querySelector('#ble-disconnect');
@@ -58,11 +66,12 @@ function onDisconnect() {
 }
 
 function sketchLoader(accelData$) {
-    const SKETCHES = {
-        rotator: rotator,
-        splatter: splatter,
-        fish: fish,
-    };
+	const SKETCHES = {
+		totem: totem,
+		rotator: rotator,
+		splatter: splatter,
+		fish: fish,
+	};
 
     SKETCHES[sketchSelector.value](accelData$);
     sketchSelection.subscribe((sketchId) => {
