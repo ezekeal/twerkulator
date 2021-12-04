@@ -212,8 +212,6 @@ export default function totem(accelData) {
 				sprites[i].move(scaledAccelPoint);
 				sprites[i].display(scaledAccelPoint);
 			}
-			// p5.fill(accelPoint.z * scaleFactorShade);
-			// p5.noStroke();
 		};
 	}, settings);
 }
