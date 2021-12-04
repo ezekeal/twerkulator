@@ -99,8 +99,8 @@ export default function totem(accelData) {
 			move(scaledAccelPoint) {
 				// this.x += this.xspeed * p5.map((scaledAccelPoint.x), -400, 400, -5, 5, true) // Increment x
 				// this.y += this.xspeed * p5.map(scaledAccelPoint.y, -200, 200, -5, 5, true);
-				let xPos = p5.map(scaledAccelPoint.x, -400, 400, 0, p5.width, true)
-				let yPos = p5.map((scaledAccelPoint.y), -400, 400, 0, p5.height, true)
+				let xPos = p5.map(-scaledAccelPoint.x, -400, 400, 0, p5.width, true)
+				let yPos = p5.map(scaledAccelPoint.y, -800, 400, 0, p5.height, true)
 
 				this.x += (xPos - this.x) / 10
 				this.y += (yPos - this.y) / 10
