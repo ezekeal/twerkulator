@@ -71,7 +71,7 @@ const settings = {
 };
 
 
-export default function rotator(accelData) {
+export default function rotator(accelData, demo) {
 	canvasSketch(({
 		p5
 	}) => {
@@ -153,7 +153,12 @@ export default function rotator(accelData) {
 			height,
 			frame
 		}) => {
-			const accelPoint = accelData.getValue();
+			var accelPoint;
+			if (demo) {
+				accelPoint = accelData.next();
+			} else {
+				const accelPoint = accelData.getValue();
+			}
 			if (!accelPoint) return;
 			if (frame === 0) {
 				// // clear canvas

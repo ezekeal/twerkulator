@@ -7,6 +7,8 @@ import rotator from './p5/rotator';
 import fish from './p5/fish';
 import splatter from './splatter';
 import totem from './p5/totem';
+import boat from './p5/boat';
+
 import {
 	from,
 	fromEvent
@@ -16,15 +18,25 @@ import {
 	switchMap,
 	catchError
 } from 'rxjs/operators';
+import { loadData } from './accelerometer';
 
 const connectButton = document.querySelector('#ble-connect');
 const disconnectButton = document.querySelector('#ble-disconnect');
+const demoButton = document.querySelector('#demo-connect');
 const statusEl = document.querySelector('#ble-status');
 const sketchSelector = document.querySelector('#sketch-select');
 
 const logStatus = (text) => (statusEl.textContent = text);
 const enableButton = (button) => button.removeAttribute('disabled');
 const disableButton = (button) => button.setAttribute('disabled', true);
+
+const SKETCHES = {
+	boat: boat,
+	totem: totem,
+	rotator: rotator,
+	splatter: splatter,
+	fish: fish,
+};
 
 const sketchSelection = fromEvent(sketchSelector, 'change').pipe(
     map((event) => event.target.value)
@@ -41,6 +53,7 @@ fromEvent(connectButton, 'click')
     .subscribe();
 
 fromEvent(disconnectButton, 'click').subscribe(onDisconnect);
+fromEvent(demoButton, 'click').subscribe(onStartDemo);
 
 function onConnecting() {
     disableButton(connectButton);
@@ -65,14 +78,14 @@ function onDisconnect() {
     enableButton(connectButton);
 }
 
-function sketchLoader(accelData$) {
-	const SKETCHES = {
-		totem: totem,
-		rotator: rotator,
-		splatter: splatter,
-		fish: fish,
-	};
+function onStartDemo() {
+	(async function() {
+		 const data = await loadData('./accel.csv');
+		 SKETCHES[sketchSelector.value](data, true)
+	})()
+}
 
+function sketchLoader(accelData$) {
     SKETCHES[sketchSelector.value](accelData$);
     sketchSelection.subscribe((sketchId) => {
         const canvas = document.querySelectorAll('canvas');
