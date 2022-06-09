@@ -19,13 +19,9 @@ let mdsize = 0;
 let frsize = 1;
 let spriteIndex = 1;
 
-let sprite1;
-let sprite2;
-let sprite3;
-
 let spriteTable = {}
 let flower;
-let spriteCount = 30
+let spriteCount = 1
 //how many frames to wait before increasing the animation frame
 let animationLag = 10;
 let animationIndex = 0;
@@ -39,9 +35,38 @@ const n = 8; // size of the grid
 let idFrom = 0;
 let idTo = 0;
 
+//wave configuration
+const OCTAVES = 6;
+const LACUNARITY = 2.;
+const GAIN = .5;
+
+var t;
+//from catlike coding, only works 0 to 1
+//https://catlikecoding.com/unity/tutorials/noise/
+function Smooth(t){
+  return t * t * t * (t * (t * 6- 15) + 10);
+}
+function fBm( p, freq, amp) {
+  //point, frequency of noise , and amplitude exponential gain
+  var val = 0;
+  for ( i = 0; i < OCTAVES; i++){
+    val += amp * noise(p * freq);
+    freq *= LACUNARITY;
+    amp *= GAIN;
+  }
+
+  return val;
+}
+
+var depth = 40;
+
+//smoothness of the lines
+var waveNodes = 60;
+var waveHeight;
+
 // Attach p5.js it to global scope
 const preload = p5 => {
-	let filePrefix = "eyeball"
+	let filePrefix = "raft"
 	for (let i = 1; i <= spriteCount; i++) {
 		let spriteName = "sprite" + i
 		let filename
@@ -52,15 +77,15 @@ const preload = p5 => {
 		} else {
 			filename = filePrefix + "0" + i
 		}
-		spriteTable[spriteName] = p5.loadImage('assets/eyeball/' + filename + '.png');
+		spriteTable[spriteName] = p5.loadImage('assets/boat/' + filename + '.png');
 	}
-	flower = p5.loadImage('assets/eyeball/flower.png');
+	flower = p5.loadImage('assets/boat/raft.png');
 };
 
 const settings = {
 	// The file name without extension, defaults to current time stamp
 	// Optional prefix applied to the file name
-	prefix: 'totem',
+	prefix: 'boat',
 	// Tell canvas-sketch we're using p5.js
 	p5: {
 		p5,
@@ -75,15 +100,18 @@ export default function boat(accelData, demo) {
 	canvasSketch(({
 		p5
 	}) => {
-		// p5.smooth();
-		// p5.frameRate(25);
+
 		p5.fill(100);
-		p5.noStroke();
+		p5.stroke(255);
+		waveHeight = p5.height/5;
 
 		// Jitter class
 		class Sprite {
 			constructor(tempR) {
-				this.r = tempR
+				//test boat size
+				this.r = 130
+				// this.r = tempR
+
 				this.x = p5.width / 2;
 				this.y = p5.height / 2;
 				//initialize layer positions
@@ -97,8 +125,6 @@ export default function boat(accelData, demo) {
 
 			}
 			move(scaledAccelPoint) {
-				// this.x += this.xspeed * p5.map((scaledAccelPoint.x), -400, 400, -5, 5, true) // Increment x
-				// this.y += this.xspeed * p5.map(scaledAccelPoint.y, -200, 200, -5, 5, true);
 				let xPos = p5.map(-scaledAccelPoint.x, -400, 400, 0, p5.width, true)
 				let yPos = p5.map(scaledAccelPoint.y, -800, 400, 0, p5.height, true)
 
@@ -106,50 +132,52 @@ export default function boat(accelData, demo) {
 				this.y += (yPos - this.y) / 10
 
 				//add easing for each layer relative to pos
-				this.bx += (this.x - this.bx) / 5
-				this.by += (this.y - this.by) / 5
+				this.bx += (this.x - this.bx) / 2
+				this.by += (this.y - this.by) / 2
 
-				this.cx += (this.x - this.cx) / 20
-				this.cy += (this.y - this.cy) / 20
+				this.cx += (this.x - this.cx) / 3
+				this.cy += (this.y - this.cy) / 3
 
-				this.dx += (this.x - this.cx) / 30
-				this.dy += (this.y - this.cy) / 30
+				this.dx += (this.x - this.dx) / 3
+				this.dy += (this.y - this.dy) / 3
 
 				this.rotation += p5.radians(1);
 			}
 			display(scaledAccelPoint) {
-				p5.fill("#E7C26A");
-				// An ellipse
-				p5.ellipse(
-					this.dx,
-					this.dy,
-					950, 950);
-
-				p5.fill("#FF67B6");
-
-				p5.ellipse(
-					this.cx,
-					this.cy,
-					800, 800);
-
 				p5.push();
-				// p5.translate(this.x, this.y);
 				//Display the animated sprite
 				let currSprite = "sprite" + spriteIndex
 
 				p5.imageMode(p5.CENTER)
+				p5.tint(183, 0, 79, 126);
+				p5.image(spriteTable[currSprite],
+					this.dx,
+					this.dy,
+					this.r * 2,
+					this.r * 2);
 
-				// A design for a simple flower
-				p5.image(flower,
+				p5.tint(0, 255, 255, 126);
+				p5.image(spriteTable[currSprite],
+					this.cx,
+					this.cy,
+					this.r * 2,
+					this.r * 2);
+					p5.tint(183, 0, 79, 126);
+
+				p5.image(spriteTable[currSprite],
 					this.bx,
 					this.by,
-					700,
-					700);
+					this.r * 2,
+					this.r * 2);
+
+				// p5.noTint();
+				p5.tint(255,105,180);
+
 				p5.image(spriteTable[currSprite],
 					this.x,
 					this.y,
-					this.r * 10,
-					this.r * 10);
+					this.r * 2,
+					this.r * 2);
 				//next frame
 				if (animationIndex > animationLag) {
 					//change animation frame
@@ -174,7 +202,6 @@ export default function boat(accelData, demo) {
 			} else if (i < mdground + bground) {
 				sprites[i] = new Sprite(mdsize);
 			} else if (i >= mdground) {
-				sprites[i] = new Sprite(frsize);
 			}
 		}
 
@@ -209,7 +236,27 @@ export default function boat(accelData, demo) {
 				y: accelPoint.y * scaleFactor,
 				z: accelPoint.z * scaleFactor,
 			};
-			p5.background("#140d07");
+			p5.background("#008b8b");
+
+			//create waves
+			p5.ellipse (p5.width/2, p5.height*.3,175,175);
+
+			p5.stroke(255);
+			for(var z = 0; z < p5.height; z+= 4*depth/p5.height ){
+				p5.fill(255,120,(z/depth)*290);
+				p5.beginShape();
+
+				var buffer = p5.width*.2 * ((depth-z)/depth);
+				p5.vertex(buffer,1000);
+					//remember this stupid line for the future
+				var lineWidth = (p5.width-buffer) - buffer*(1-(z/depth));
+				for( var x = 0; x < lineWidth; x += lineWidth/waveNodes){
+					p5.vertex(x+buffer,
+								 p5.height/depth + p5.height/z + p5.noise(x*.01+p5.frameCount*.005,z-p5.frameCount*.0075) * waveHeight + 10*z);
+				}
+				p5.vertex(p5.width-buffer, 1000);
+				p5.endShape();
+			}
 
 			// Move and display sprite
 			for (let i = 0; i < sprites.length; i++) {
