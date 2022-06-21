@@ -43,19 +43,20 @@ const GAIN = .5;
 var t;
 //from catlike coding, only works 0 to 1
 //https://catlikecoding.com/unity/tutorials/noise/
-function Smooth(t){
-  return t * t * t * (t * (t * 6- 15) + 10);
+function Smooth(t) {
+	return t * t * t * (t * (t * 6 - 15) + 10);
 }
-function fBm( p, freq, amp) {
-  //point, frequency of noise , and amplitude exponential gain
-  var val = 0;
-  for ( i = 0; i < OCTAVES; i++){
-    val += amp * noise(p * freq);
-    freq *= LACUNARITY;
-    amp *= GAIN;
-  }
 
-  return val;
+function fBm(p, freq, amp) {
+	//point, frequency of noise , and amplitude exponential gain
+	var val = 0;
+	for (i = 0; i < OCTAVES; i++) {
+		val += amp * noise(p * freq);
+		freq *= LACUNARITY;
+		amp *= GAIN;
+	}
+
+	return val;
 }
 
 var depth = 40;
@@ -66,7 +67,7 @@ var waveHeight;
 
 // Attach p5.js it to global scope
 const preload = p5 => {
-	let filePrefix = "raft"
+	let filePrefix = "duck"
 	for (let i = 1; i <= spriteCount; i++) {
 		let spriteName = "sprite" + i
 		let filename
@@ -79,7 +80,7 @@ const preload = p5 => {
 		}
 		spriteTable[spriteName] = p5.loadImage('assets/boat/' + filename + '.png');
 	}
-	flower = p5.loadImage('assets/boat/raft.png');
+	flower = p5.loadImage('assets/live.png');
 };
 
 const settings = {
@@ -103,7 +104,7 @@ export default function boat(accelData, demo) {
 
 		p5.fill(100);
 		p5.stroke(255);
-		waveHeight = p5.height/5;
+		waveHeight = p5.height / 5;
 
 		// Jitter class
 		class Sprite {
@@ -125,11 +126,12 @@ export default function boat(accelData, demo) {
 
 			}
 			move(scaledAccelPoint) {
-				let xPos = p5.map(-scaledAccelPoint.x, -400, 400, 0, p5.width, true)
-				let yPos = p5.map(scaledAccelPoint.y, -800, 400, 0, p5.height, true)
+				// console.log(scaledAccelPoint)
+				let xPos = p5.map(-scaledAccelPoint.x, -100, 100, 0, p5.width, true)
+				let yPos = p5.map(scaledAccelPoint.y, -100, 100, p5.height * .5, p5.height, true)
 
-				this.x += (xPos - this.x) / 10
-				this.y += (yPos - this.y) / 10
+				this.x += (xPos - this.x) / 6
+				this.y += (yPos - this.y) / 6
 
 				//add easing for each layer relative to pos
 				this.bx += (this.x - this.bx) / 2
@@ -162,7 +164,7 @@ export default function boat(accelData, demo) {
 					this.cy,
 					this.r * 2,
 					this.r * 2);
-					p5.tint(183, 0, 79, 126);
+				p5.tint(183, 0, 79, 126);
 
 				p5.image(spriteTable[currSprite],
 					this.bx,
@@ -171,7 +173,7 @@ export default function boat(accelData, demo) {
 					this.r * 2);
 
 				// p5.noTint();
-				p5.tint(255,105,180);
+				p5.tint(255, 105, 180);
 
 				p5.image(spriteTable[currSprite],
 					this.x,
@@ -201,8 +203,7 @@ export default function boat(accelData, demo) {
 				sprites[i] = new Sprite(bgsize);
 			} else if (i < mdground + bground) {
 				sprites[i] = new Sprite(mdsize);
-			} else if (i >= mdground) {
-			}
+			} else if (i >= mdground) {}
 		}
 
 		return ({
@@ -238,23 +239,26 @@ export default function boat(accelData, demo) {
 			};
 			p5.background("#008b8b");
 
+			p5.image(flower, 50, 75, 200, 100)
+
+
 			//create waves
-			p5.ellipse (p5.width/2, p5.height*.3,175,175);
+			p5.ellipse(p5.width / 2, p5.height * .3, 175, 175);
 
 			p5.stroke(255);
-			for(var z = 0; z < p5.height; z+= 4*depth/p5.height ){
-				p5.fill(255,120,(z/depth)*290);
+			for (var z = 0; z < p5.height; z += 100 * depth / p5.height) {
+				p5.fill(255, 120, (z / depth) * 290);
 				p5.beginShape();
 
-				var buffer = p5.width*.2 * ((depth-z)/depth);
-				p5.vertex(buffer,1000);
-					//remember this stupid line for the future
-				var lineWidth = (p5.width-buffer) - buffer*(1-(z/depth));
-				for( var x = 0; x < lineWidth; x += lineWidth/waveNodes){
-					p5.vertex(x+buffer,
-								 p5.height/depth + p5.height/z + p5.noise(x*.01+p5.frameCount*.005,z-p5.frameCount*.0075) * waveHeight + 10*z);
+				var buffer = p5.width * .2 * ((depth - z) / depth);
+				p5.vertex(buffer, 1000);
+				//remember this stupid line for the future
+				var lineWidth = (p5.width - buffer) - buffer * (1 - (z / depth));
+				for (var x = 0; x < lineWidth; x += lineWidth / waveNodes) {
+					p5.vertex(x + buffer,
+						p5.height / depth + p5.height / z + p5.noise(x * .01 + p5.frameCount * .005, z - p5.frameCount * .0075) * waveHeight + 10 * z);
 				}
-				p5.vertex(p5.width-buffer, 1000);
+				p5.vertex(p5.width - buffer, 1000);
 				p5.endShape();
 			}
 
